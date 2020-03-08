@@ -88,7 +88,7 @@ app.get("/api/weather", (req, res) => {
 
 app.get("/product", (req, res) => {
   console.log(req.query);
-  res.end("Product");
+  res.end("Product Detail");
 });
 
 app.get("*", (req, res) => {
