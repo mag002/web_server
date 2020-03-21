@@ -135,5 +135,5 @@ app.get("*", (req, res) => {
 //   place:'hcm',
 //   forecast:'Sunny day'
 // }
-console.log("LISTENING PORT 3300");
-app.listen(3300);
+console.log("LISTENING PORT 8080");
+app.listen(8080);
