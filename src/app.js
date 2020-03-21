@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const hbs = require("hbs");
+const bodyParser = require("body-parser");
 
 const publicDirectory = path.join(__dirname, "../public");
 const viewsDirectory = path.join(__dirname, "../public/template");
@@ -16,6 +17,8 @@ app.use(express.static(publicDirectory));
 app.set("view engine", "hbs");
 //setup directory for views folder
 app.set("views", viewsDirectory);
+//set up middleware for body parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 app.get("/", function(request, response) {
   // console.log();
@@ -50,6 +53,20 @@ app.get("/weather", (req, res) => {
   res.render("weather", {
     title: "Weather page",
     name: "Ca Map"
+  });
+});
+app.get("/result", (req, res) => {
+  const { lat, lng, place_name } = req.query;
+  forecast(lat, lng, function(err, dataForecast) {
+    if (err) {
+      return res.send(err);
+    }
+    const data = {
+      ...dataForecast
+    };
+    console.log(data);
+
+    res.render("result", { data, place_name });
   });
 });
 app.get("/api/weather", (req, res) => {
@@ -90,7 +107,25 @@ app.get("/product", (req, res) => {
   console.log(req.query);
   res.end("Product Detail");
 });
-
+app.post("/autocomplete", urlencodedParser, (req, res) => {
+  const { search } = req.body;
+  geocoding(search, function(err, data) {
+    if (err) {
+      return res.send(err);
+    }
+    console.log(data.features);
+    const newData = data.features.map(feature => {
+      return {
+        place_name: feature.place_name,
+        lat: feature.geometry.coordinates[1],
+        lng: feature.geometry.coordinates[0]
+      };
+    });
+    res.render("autocomplete", {
+      dataAutocomplete: newData
+    });
+  });
+});
 app.get("*", (req, res) => {
   res.send("404 page not found hihi!");
 });

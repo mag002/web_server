@@ -7,7 +7,7 @@ function geocoding(keyword, callback) {
   console.log("Searching....");
   const geocodingUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
     keyword
-  )}.json?access_token=${tokens}&language=vi&limit=1`;
+  )}.json?access_token=${tokens}&language=vi&limit=5`;
   let data = null;
   request(geocodingUrl, { json: true }, (err, res) => {
     if (err) {

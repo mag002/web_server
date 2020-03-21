@@ -15,10 +15,10 @@
   {{!-- partials --}}
   {{>header}}
   <main>
-    <h1>WEATHER APP</h1>
-    <form action="/autocomplete" method="POST">
-      <input id="search" type="text" name="search" placeholder="Search" />
-    </form>
+    <h1>{{place_name}}</h1>
+    <p>Thời tiết hôm nay {{data.summary}}</p>
+    <p>Nhiệt độ là {{data.temperature}}</p>
+
   </main>
   {{>footer}}
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
